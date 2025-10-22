@@ -14,12 +14,13 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class BaseTest {
     
     public static WebDriver driver;
-    public Properties prop;
+    public static Properties prop;
 
     public BaseTest() {
         try {
             prop = new Properties();
-            FileInputStream fis = new FileInputStream("src/main/com/cucumberpom/config/config.properties");
+            String projectPath = System.getProperty("user.dir");
+            FileInputStream fis = new FileInputStream(projectPath + "/src/test/resources/config.properties");
             prop.load(fis);
         } catch (IOException e) {
             e.printStackTrace();
@@ -28,10 +29,11 @@ public class BaseTest {
 
     public static void initBrowser(){
         String modo = System.getProperty("execMode");
-        String browser = System.getProperty("browser");
-        if(browser.equalsIgnoreCase(browser) && modo.equalsIgnoreCase("headless")){
+        String browser = System.getProperty("browser", prop.getProperty("browser", "chrome"));
+        System.out.println("Modo de ejecucion: " + modo);
+        System.out.println("Browser: " + browser);
+        if(browser.equalsIgnoreCase("chrome") && modo.equalsIgnoreCase("headless")){
             ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless=new");
             options.addArguments("--window-size=1366,768");
 		    options.addArguments("--start-maximized");
 		    options.addArguments("--disable-gpu");
@@ -50,7 +52,7 @@ public class BaseTest {
             WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver(options);
         } 
-        else if(browser.equalsIgnoreCase(browser) && !modo.equalsIgnoreCase("headless")){
+        if(browser.equalsIgnoreCase("chrome") && !modo.equalsIgnoreCase("headless")){
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--incognito");
             WebDriverManager.chromedriver().setup();
