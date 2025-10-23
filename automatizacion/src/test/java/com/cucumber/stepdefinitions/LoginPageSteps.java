@@ -21,7 +21,7 @@ public class LoginPageSteps extends BaseTest {
 
     @After
     public void tearDown() throws InterruptedException{
-        Thread.sleep(5000);
+        Thread.sleep(8000);
         driver.close();
     }
 
@@ -31,5 +31,14 @@ public class LoginPageSteps extends BaseTest {
         loginPage = new LoginPage();
     }
 
+    @When("^Verficar que el usuario esta en la pagina de login$")
+    public void verficar_que_el_usuario_esta_en_la_pagina_de_login() throws InterruptedException {
+        loginPage.waitForElementToBeVisible();
+    }
+
+    @Then("^El usuario ingresa las credenciales validas$")
+    public void el_usuario_ingresa_las_credenciales_validas() {
+        // Implementar la logica para ingresar las credenciales validas
+    }
 
 }

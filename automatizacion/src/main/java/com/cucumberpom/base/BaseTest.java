@@ -34,6 +34,7 @@ public class BaseTest {
         System.out.println("Browser: " + browser);
         if(browser.equalsIgnoreCase("chrome") && modo.equalsIgnoreCase("headless")){
             ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless=new");
             options.addArguments("--window-size=1366,768");
 		    options.addArguments("--start-maximized");
 		    options.addArguments("--disable-gpu");
