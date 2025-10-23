@@ -8,7 +8,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.cucumberpom.base.BaseTest;
@@ -24,6 +23,9 @@ public class LoginPage extends BaseTest {
 
     @FindBy(css = "input[name=\"password\"]")
     WebElement password;
+
+    @FindBy(css = "button[type=\"submit\"]")
+    WebElement btnLogin;
 
     public LoginPage() {
         PageFactory.initElements(driver, this);
@@ -46,17 +48,19 @@ public class LoginPage extends BaseTest {
         }
     }
 
-    public HomePage el_usuario_ingresa_las_credenciales_validas() throws InterruptedException {
+    public void el_usuario_ingresa_las_credenciales_validas() throws InterruptedException {
         String usuario = prop.getProperty("userName");
         String contrasena = prop.getProperty("password");
 
         doLogin(usuario, contrasena);
-        return new HomePage();
+
     }
 
     public void doLogin(String usuario, String contrasena) throws InterruptedException {
         wait.until(ExpectedConditions.visibilityOf(userName)).sendKeys(usuario);
         wait.until(ExpectedConditions.visibilityOf(password)).sendKeys(contrasena);
+        
+        wait.until(ExpectedConditions.elementToBeClickable(btnLogin)).click();
 
     }
 
