@@ -1,67 +1,52 @@
 package com.cucumber.pages;
 
-import java.time.Duration;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 
-import com.cucumberpom.base.BaseTest;
+public class LoginPage {
+    private WebDriver driver;
+    private WebDriverWait wait;
 
-import org.junit.Assert;
+    private By userField = By.name("username");
+    private By passField = By.name("password");
+    private By loginButton = By.cssSelector("button[type='submit']");
 
-public class LoginPage extends BaseTest {
-
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-
-    @FindBy(css = "input[name=\"username\"]")
-    WebElement userName;
-
-    @FindBy(css = "input[name=\"password\"]")
-    WebElement password;
-
-    @FindBy(css = "button[type=\"submit\"]")
-    WebElement btnLogin;
-
-    public LoginPage() {
-        PageFactory.initElements(driver, this);
+    public LoginPage(WebDriver driver) {
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
 
-    public void waitForElementToBeVisible() throws InterruptedException {
-        try{
-            WebElement tituloLogin = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(
-                    By.cssSelector("h5[class='oxd-text oxd-text--h5 orangehrm-login-title']")
-                    )
-            );
-            
-            String titulo = tituloLogin.getText();
-            String expectedTitle = "Login";
-            Assert.assertEquals(expectedTitle, titulo);
-        }
-        catch(Exception e){
-            System.out.println("El elemento no se encontro: " + e.getMessage());
+    public void open(String url) {
+        driver.get(url);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(userField));
+    }
+
+    public boolean estaEnLoginPage() {
+        try {
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(userField)).isDisplayed();
+        } catch (Exception e) {
+            return false;
         }
     }
 
-    public void el_usuario_ingresa_las_credenciales_validas() throws InterruptedException {
-        String usuario = prop.getProperty("userName");
-        String contrasena = prop.getProperty("password");
-
-        doLogin(usuario, contrasena);
-
+    public void login(String user, String pass) {
+        wait.until(ExpectedConditions.elementToBeClickable(userField)).sendKeys(user);
+        wait.until(ExpectedConditions.elementToBeClickable(passField)).sendKeys(pass);
+        wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
+        wait.until(ExpectedConditions.urlContains("/dashboard"));
     }
 
-    public void doLogin(String usuario, String contrasena) throws InterruptedException {
-        wait.until(ExpectedConditions.visibilityOf(userName)).sendKeys(usuario);
-        wait.until(ExpectedConditions.visibilityOf(password)).sendKeys(contrasena);
-        
-        wait.until(ExpectedConditions.elementToBeClickable(btnLogin)).click();
-
+    public boolean isUserLoggedIn() {
+        try {
+            By dashboardHeader = By.xpath("//h6[text()='Dashboard']");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(dashboardHeader));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }

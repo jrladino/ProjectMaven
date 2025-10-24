@@ -7,7 +7,7 @@ import io.cucumber.junit.CucumberOptions;
 @RunWith(Cucumber.class)
 @CucumberOptions(
     features = "src/test/java/com/cucumber/features",
-    glue = {"com.cucumber.stepdefinitions"},
+    glue = {"com.cucumber.stepdefinitions", "com.cucumber.hooks"},
     plugin = {
         "pretty",
         "html:target/cucumber-reports.html",
