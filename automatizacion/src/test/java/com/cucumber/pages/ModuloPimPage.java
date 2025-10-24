@@ -38,22 +38,25 @@ public class ModuloPimPage {
         }
     }
 
-    public void crearNuevoEmpleado(String nombre, String apellido, String idEmpleado) {
+    public void crearNuevoEmpleado(String primerNombre, String segundoNombre, String apellido) throws InterruptedException {
         try {
             By botonAgregar = By.xpath("//button[normalize-space()='Add']");
             WebElement agregarButton = wait.until(ExpectedConditions.elementToBeClickable(botonAgregar));
             agregarButton.click();
 
             By campoNombre = By.name("firstName");
+            By campoNombre2 = By.name("middleName");
             By campoApellido = By.name("lastName");
-            By campoIdEmpleado = By.name("employeeId");
             By botonGuardar = By.xpath("//button[normalize-space()='Save']");
 
-            wait.until(ExpectedConditions.visibilityOfElementLocated(campoNombre)).sendKeys(nombre);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(campoNombre)).sendKeys(primerNombre);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(campoNombre2)).sendKeys(segundoNombre);
             wait.until(ExpectedConditions.visibilityOfElementLocated(campoApellido)).sendKeys(apellido);
-            wait.until(ExpectedConditions.visibilityOfElementLocated(campoIdEmpleado)).clear();
-            wait.until(ExpectedConditions.visibilityOfElementLocated(campoIdEmpleado)).sendKeys(idEmpleado);
-            wait.until(ExpectedConditions.elementToBeClickable(botonGuardar)).click();
+
+            //insertar una espera para ver el llenado de los campos
+            Thread.sleep(5000);
+
+            //wait.until(ExpectedConditions.elementToBeClickable(botonGuardar)).click();
 
             System.out.println("Nuevo empleado creado exitosamente.");
         } catch (TimeoutException e) {
