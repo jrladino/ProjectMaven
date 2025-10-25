@@ -40,22 +40,30 @@ public class ExcelUtil {
                 //obtiene la celda correspondiente a la columna "Estado"
                 Cell celdaEstado = fila.getCell(columnaEstado);
                 if(celdaEstado == null) continue; // Salta si la celda está vacía
-
                 
+                // Se asegura que la celda sea de tipo String
+                celdaEstado.setCellType(CellType.STRING);
+                String estado = celdaEstado.getStringCellValue().trim(); //limpia espacios en blanco
 
-
-                
-            }
-
-            
-
+                // Si el estado es "Disponible", lee los datos de la fila
+                if(estado.equalsIgnoreCase("Disponible")){
+                    // Recorre todas las celdas de la fila
+                    for(Cell celda : fila){
+                        celda.setCellType(CellType.STRING); // Asegura que la celda sea de tipo String
+                        String nombreColumna = encabezado.getCell(celda.getColumnIndex()).getStringCellValue().trim();
+                        String valorCelda = celda.getStringCellValue();
+                        if(valorCelda == null) continue;
+                        filaLeida.put(nombreColumna, valorCelda);
+                    } 
+                    workbook.close();
+                    break; // Sale del ciclo después de encontrar la primera fila disponible
+                }                
+            }        
         }
         catch (Exception e){
             System.out.println("Error al leer o escribir en el archivo Excel: " + e.getMessage());
         }
-
         return filaLeida;
-
     }
 
     private static int obtenerIndiceColumna(Row encabezado, String nombreColumna){

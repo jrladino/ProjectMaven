@@ -6,7 +6,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.cucumber.utils.ExcelUtil;
+
 import java.time.Duration;
+import java.util.Map;
+
 import org.junit.Assert;
 
 public class ModuloPimPage {
@@ -38,29 +43,46 @@ public class ModuloPimPage {
         }
     }
 
-    public void crearNuevoEmpleado(String primerNombre, String segundoNombre, String apellido) throws InterruptedException {
+    public void usuario_hace_clic_en_el_boton_Agregar() {
         try {
             By botonAgregar = By.xpath("//button[normalize-space()='Add']");
             WebElement agregarButton = wait.until(ExpectedConditions.elementToBeClickable(botonAgregar));
             agregarButton.click();
 
-            By campoNombre = By.name("firstName");
-            By campoNombre2 = By.name("middleName");
-            By campoApellido = By.name("lastName");
-            By botonGuardar = By.xpath("//button[normalize-space()='Save']");
-
-            wait.until(ExpectedConditions.visibilityOfElementLocated(campoNombre)).sendKeys(primerNombre);
-            wait.until(ExpectedConditions.visibilityOfElementLocated(campoNombre2)).sendKeys(segundoNombre);
-            wait.until(ExpectedConditions.visibilityOfElementLocated(campoApellido)).sendKeys(apellido);
-
-            //insertar una espera para ver el llenado de los campos
-            Thread.sleep(5000);
-
-            //wait.until(ExpectedConditions.elementToBeClickable(botonGuardar)).click();
-
-            System.out.println("Nuevo empleado creado exitosamente.");
+            System.out.println("Clic en el botón Agregar exitoso.");
         } catch (TimeoutException e) {
-            System.out.println("Error al crear un nuevo empleado: " + e.getMessage());
+            System.out.println("Error al hacer clic en el botón Agregar: " + e.getMessage());
+        }
+    }
+
+    public void crearNuevoEmpleado() throws InterruptedException {
+        Map<String, String> datosEmpleado = ExcelUtil.obtenerRegistroDisponibleYMarcarUsado("src/test/resources/datos.xlsx");
+        
+        System.out.println("SIIIIII LLLEGGAAAAA: " );
+        Thread.sleep(2000); // Espera para observar el resultado antes de cerrar el navegador
+        try{
+            By inputFirstName = By.name("firstName");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(inputFirstName)).sendKeys(datosEmpleado.get("Primer Nombre"));
+
+            By inputMiddleName = By.name("middleName");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(inputMiddleName)).sendKeys(datosEmpleado.get("Segundo Nombre"));
+
+            By inputLastName = By.name("lastName");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(inputLastName)).sendKeys(datosEmpleado.get("Apellido"));
+
+            By botonGuardar = By.xpath("//button[normalize-space()='Save']");
+            WebElement saveButton = wait.until(ExpectedConditions.elementToBeClickable(botonGuardar));
+            saveButton.click();
+
+            System.out.println("Nuevo empleado creado exitosamente: " );
+
+            By OtherID = By.xpath("//label[text()=\"Other Id\"]/following::input[1]");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(OtherID)).sendKeys(datosEmpleado.get("Cedula"));
+
+            Thread.sleep(5000); // Espera para observar el resultado antes de cerrar el navegador
+        }
+        catch (Exception e){
+            System.out.println("Error al crear nuevo empleado: " + e.getMessage());
         }
     }
 }

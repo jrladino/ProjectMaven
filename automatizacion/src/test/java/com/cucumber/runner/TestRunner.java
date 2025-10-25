@@ -6,7 +6,7 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-    features = "src/test/java/com/cucumber/features",
+    features = "src/test/java/com/cucumber/features/gestionarPim.feature",
     glue = {"com.cucumber.stepdefinitions", "com.cucumber.hooks"},
     plugin = {
         "pretty",

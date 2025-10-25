@@ -26,9 +26,13 @@ public class ModuloPimPageSteps extends BaseTest {
         moduloPimPage.irAModuloPIM();
     }
 
+    @When("^Usuario hace clic en el boton Agregar$")
+    public void usuario_hace_clic_en_el_boton_Agregar() {
+        moduloPimPage.usuario_hace_clic_en_el_boton_Agregar();
+    }
 
     @Then("^El usuario crea un nuevo empleado con los datos validos$")
     public void el_usuario_crea_un_nuevo_empleado_con_datos_validos() throws InterruptedException {
-        moduloPimPage.crearNuevoEmpleado("Juan", "Camilo", "Perez");
+        moduloPimPage.crearNuevoEmpleado();
     }   
 }

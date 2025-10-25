@@ -6,4 +6,5 @@ Feature: Crear empleado en el sistema PIM
     Then El usuario ingresa las credenciales validas
     And El usuario se encuentra en la pagina de inicio del sistema PIM
     When El usuario ingresa al modulo PIM
+    Then Usuario hace clic en el boton Agregar
     Then El usuario crea un nuevo empleado con los datos validos
