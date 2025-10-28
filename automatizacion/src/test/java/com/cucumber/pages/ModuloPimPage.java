@@ -59,7 +59,7 @@ public class ModuloPimPage {
         Map<String, String> datosEmpleado = ExcelUtil.obtenerRegistroDisponibleYMarcarUsado("src/test/resources/datos.xlsx");
         
         System.out.println("SIIIIII LLLEGGAAAAA: " );
-        Thread.sleep(2000); // Espera para observar el resultado antes de cerrar el navegador
+        Thread.sleep(5000); // Espera para observar el resultado antes de cerrar el navegador
         try{
             By inputFirstName = By.name("firstName");
             wait.until(ExpectedConditions.visibilityOfElementLocated(inputFirstName)).sendKeys(datosEmpleado.get("Primer Nombre"));
@@ -75,9 +75,16 @@ public class ModuloPimPage {
             saveButton.click();
 
             System.out.println("Nuevo empleado creado exitosamente: " );
-
+            
+            Thread.sleep(5000); // Espera para observar el resultado antes de cerrar el navegador
+            
             By OtherID = By.xpath("//label[text()=\"Other Id\"]/following::input[1]");
             wait.until(ExpectedConditions.visibilityOfElementLocated(OtherID)).sendKeys(datosEmpleado.get("Cedula"));
+
+            By LicenseNumber = By.xpath("//label[text()=\"Driver's License Number\"]/following::input[1]");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(LicenseNumber)).sendKeys(datosEmpleado.get("Licencia de conduccion"));
+
+
 
             Thread.sleep(5000); // Espera para observar el resultado antes de cerrar el navegador
         }
