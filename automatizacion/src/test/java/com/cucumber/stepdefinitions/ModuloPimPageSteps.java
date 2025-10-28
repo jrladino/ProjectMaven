@@ -33,6 +33,11 @@ public class ModuloPimPageSteps extends BaseTest {
 
     @Then("^El usuario crea un nuevo empleado con los datos validos$")
     public void el_usuario_crea_un_nuevo_empleado_con_datos_validos() throws InterruptedException {
-        moduloPimPage.crearNuevoEmpleado();
+        moduloPimPage.el_usuario_crea_un_nuevo_empleado_con_datos_validos();
     }   
+
+    @Then("^El usuario guarda el formulario con los datos$")
+    public void el_usuario_guarda_el_formulario_con_los_datos() {
+        moduloPimPage.el_usuario_guarda_el_formulario_con_los_datos();
+    }
 }

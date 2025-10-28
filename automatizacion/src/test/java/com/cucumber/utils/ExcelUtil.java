@@ -75,4 +75,66 @@ public class ExcelUtil {
         return -1; // Retorna -1 si no encuentra la columna
     }
 
+    // Método para marcar una fila como "Usado" en la columna "Estado"
+    public static void marcarFilaComoUsado(String rutaArchivo, Map<String, String> filaDatos){
+        try{
+            FileInputStream file = new FileInputStream(new File(rutaArchivo));
+            Workbook workbook = new XSSFWorkbook(file);
+            Sheet sheet = workbook.getSheetAt(0); // Obtiene la primera hoja
+
+            //Lee la primera fila para obtener los nombres de las columnas
+            Row encabezado = sheet.getRow(0);
+
+            //Busca el indice de la columna "Estado"
+            int columnaEstado = obtenerIndiceColumna(encabezado, "Estado");   
+            
+            if(columnaEstado == -1){
+                workbook.close();
+                file.close();
+                return;
+            }
+
+            // Recorre todas las filas empezando desde la segunda fila (índice 1)
+            for(int i=1; i<= sheet.getLastRowNum(); i++){
+                Row fila = sheet.getRow(i);
+                if(fila == null) continue; // Salta filas vacías
+
+                boolean esFilaCoincidente = true;
+                // Verifica si la fila coincide con los datos proporcionados
+                for(Cell celda : fila){
+                    celda.setCellType(CellType.STRING);
+                    String nombreColumna = encabezado.getCell(celda.getColumnIndex()).getStringCellValue().trim();
+                    String valorCelda = celda.getStringCellValue();
+                    String valorEsperado = filaDatos.get(nombreColumna);
+                    if(valorEsperado == null) continue;
+                    if(!valorCelda.equals(valorEsperado)){
+                        esFilaCoincidente = false;
+                        break;
+                    }
+                }
+
+                // Si encuentra la fila coincidente, marca como "Usado"
+                if(esFilaCoincidente){
+                    Cell celdaEstado = fila.getCell(columnaEstado);
+                    if(celdaEstado == null){
+                        celdaEstado = fila.createCell(columnaEstado);
+                    }
+                    celdaEstado.setCellValue("Usado");
+                    break;
+                }
+            }
+
+            file.close();
+
+            // Escribe los cambios en el archivo Excel
+            FileOutputStream outFile = new FileOutputStream(new File(rutaArchivo));
+            workbook.write(outFile);
+            outFile.close();
+            workbook.close();
+        }
+        catch (Exception e){
+            System.out.println("Error al marcar la fila como Usado en el archivo Excel: " + e.getMessage());
+        }
+    }
+
 }

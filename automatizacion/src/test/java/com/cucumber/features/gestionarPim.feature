@@ -8,3 +8,4 @@ Feature: Crear empleado en el sistema PIM
     When El usuario ingresa al modulo PIM
     Then Usuario hace clic en el boton Agregar
     Then El usuario crea un nuevo empleado con los datos validos
+    And El usuario guarda el formulario con los datos
