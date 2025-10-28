@@ -37,7 +37,7 @@ public class ModuloPimPageSteps extends BaseTest {
     }   
 
     @Then("^El usuario guarda el formulario con los datos$")
-    public void el_usuario_guarda_el_formulario_con_los_datos() {
+    public void el_usuario_guarda_el_formulario_con_los_datos() throws InterruptedException {
         moduloPimPage.el_usuario_guarda_el_formulario_con_los_datos();
     }
 }

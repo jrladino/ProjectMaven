@@ -75,9 +75,10 @@ public class ExcelUtil {
         return -1; // Retorna -1 si no encuentra la columna
     }
 
-    // Método para marcar una fila como "Usado" en la columna "Estado"
-    public static void marcarFilaComoUsado(String rutaArchivo, Map<String, String> filaDatos){
+    // MEtodo para buscar solo el primer registro con estado "Disponible" y marcarlo como "Usado"
+    public static void marcarRegistroComoUsado(String rutaArchivo){
         try{
+            //Abre el archivo Excel indicado en la ruta
             FileInputStream file = new FileInputStream(new File(rutaArchivo));
             Workbook workbook = new XSSFWorkbook(file);
             Sheet sheet = workbook.getSheetAt(0); // Obtiene la primera hoja
@@ -88,52 +89,40 @@ public class ExcelUtil {
             //Busca el indice de la columna "Estado"
             int columnaEstado = obtenerIndiceColumna(encabezado, "Estado");   
             
+            // Si no encuentra la columna "Estado", cierra el archivo y retorna
             if(columnaEstado == -1){
                 workbook.close();
                 file.close();
                 return;
             }
-
-            // Recorre todas las filas empezando desde la segunda fila (índice 1)
+            // Recorre todas las filas empezando desde la segunda fila (índice 1), por que la primera es el encabezado
             for(int i=1; i<= sheet.getLastRowNum(); i++){
                 Row fila = sheet.getRow(i);
                 if(fila == null) continue; // Salta filas vacías
+                //obtiene la celda correspondiente a la columna "Estado"
+                Cell celdaEstado = fila.getCell(columnaEstado);
+                if(celdaEstado == null) continue; // Salta si la celda está vacía
+                
+                // Se asegura que la celda sea de tipo String
+                celdaEstado.setCellType(CellType.STRING);
+                String estado = celdaEstado.getStringCellValue().trim(); //limpia espacios en blanco
 
-                boolean esFilaCoincidente = true;
-                // Verifica si la fila coincide con los datos proporcionados
-                for(Cell celda : fila){
-                    celda.setCellType(CellType.STRING);
-                    String nombreColumna = encabezado.getCell(celda.getColumnIndex()).getStringCellValue().trim();
-                    String valorCelda = celda.getStringCellValue();
-                    String valorEsperado = filaDatos.get(nombreColumna);
-                    if(valorEsperado == null) continue;
-                    if(!valorCelda.equals(valorEsperado)){
-                        esFilaCoincidente = false;
-                        break;
-                    }
-                }
-
-                // Si encuentra la fila coincidente, marca como "Usado"
-                if(esFilaCoincidente){
-                    Cell celdaEstado = fila.getCell(columnaEstado);
-                    if(celdaEstado == null){
-                        celdaEstado = fila.createCell(columnaEstado);
-                    }
+                // Si el estado es "Disponible", lo marca como "Usado"
+                if(estado.equalsIgnoreCase("Disponible")){
                     celdaEstado.setCellValue("Usado");
-                    break;
-                }
-            }
-
+                    break; // Sale del ciclo después de marcar la primera fila disponible
+                }                
+            }        
             file.close();
 
-            // Escribe los cambios en el archivo Excel
+            // Guarda los cambios en el archivo Excel
             FileOutputStream outFile = new FileOutputStream(new File(rutaArchivo));
             workbook.write(outFile);
             outFile.close();
             workbook.close();
         }
         catch (Exception e){
-            System.out.println("Error al marcar la fila como Usado en el archivo Excel: " + e.getMessage());
+            System.out.println("Error al leer o escribir en el archivo Excel: " + e.getMessage());
         }
     }
 

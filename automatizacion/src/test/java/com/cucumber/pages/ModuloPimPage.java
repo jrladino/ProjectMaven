@@ -59,8 +59,11 @@ public class ModuloPimPage {
         Map<String, String> datosEmpleado = ExcelUtil.obtenerRegistroDisponibleYMarcarUsado("src/test/resources/datos.xlsx");
         
         System.out.println("SIIIIII LLLEGGAAAAA: " );
-        Thread.sleep(2000); // Espera para observar el resultado 
+        
         try{
+
+            Thread.sleep(2000); // Espera para observar el resultado 
+
             By inputFirstName = By.name("firstName");
             wait.until(ExpectedConditions.visibilityOfElementLocated(inputFirstName)).sendKeys(datosEmpleado.get("Primer Nombre"));
 
@@ -122,7 +125,7 @@ public class ModuloPimPage {
             wait.until(ExpectedConditions.visibilityOfElementLocated(FechaNacimiento)).sendKeys(datosEmpleado.get("Fecha de Nacimiento"));
 
             // Ingresar el género aleatoriamente
-            String genero = Math.random() < 0.5 ? "1" : "2"; // 1 para masculino, 2 para femenino
+            String genero = datosEmpleado.get("Genero").equalsIgnoreCase("Hombre") ? "1" : "2";
             By SelectorGenero = By.xpath("(//span[@class='oxd-radio-input oxd-radio-input--active --label-right oxd-radio-input'])[" + genero + "]");
             wait.until(ExpectedConditions.elementToBeClickable(SelectorGenero)).click();
 
@@ -133,11 +136,16 @@ public class ModuloPimPage {
         }
     }
 
-    public void el_usuario_guarda_el_formulario_con_los_datos() {
+    public void el_usuario_guarda_el_formulario_con_los_datos() throws InterruptedException {
         try {
             By botonGuardar = By.xpath("(//button[normalize-space()='Save'])[1]");
             WebElement saveButton = wait.until(ExpectedConditions.elementToBeClickable(botonGuardar));
             saveButton.click();
+
+            Thread.sleep(2000); // Espera para observar el resultado
+            ExcelUtil.marcarRegistroComoUsado("src/test/resources/datos.xlsx");
+
+            Thread.sleep(2000); // Espera para observar el resultado
 
             System.out.println("Formulario guardado exitosamente.");
         } catch (TimeoutException e) {
