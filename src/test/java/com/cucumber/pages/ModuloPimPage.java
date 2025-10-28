@@ -25,13 +25,14 @@ public class ModuloPimPage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
 
-    public void validaPantallaModuloPIM() {
+    public void validaPantallaModuloPIM()  {
         By headerPIM = By.xpath("//h6[text()='Dashboard']");
         WebElement elementoHeader = wait.until(ExpectedConditions.visibilityOfElementLocated(headerPIM));
+
         Assert.assertTrue("❌ No se visualizó el dashboard del PIM.", elementoHeader.isDisplayed());
     }
 
-    public void irAModuloPIM() {
+    public void irAModuloPIM()  {
         try {
             // Selector robusto que no depende de "active"
             By menuPIM = By.xpath("//span[normalize-space()='PIM']/ancestor::a");
@@ -43,7 +44,7 @@ public class ModuloPimPage {
         }
     }
 
-    public void usuario_hace_clic_en_el_boton_Agregar() {
+    public void usuario_hace_clic_en_el_boton_Agregar(){
         try {
             By botonAgregar = By.xpath("//button[normalize-space()='Add']");
             WebElement agregarButton = wait.until(ExpectedConditions.elementToBeClickable(botonAgregar));
@@ -83,7 +84,7 @@ public class ModuloPimPage {
             campoEmployeeId.sendKeys(idUnico);
 
             System.out.println("Nuevo Employee Id generado: " + idUnico);
-
+            Thread.sleep(2000); // Espera para observar el resultado
             // Hacer clic en el botón Guardar
             By botonGuardar = By.xpath("//button[normalize-space()='Save']");
             WebElement saveButton = wait.until(ExpectedConditions.elementToBeClickable(botonGuardar));
@@ -102,39 +103,34 @@ public class ModuloPimPage {
             wait.until(ExpectedConditions.visibilityOfElementLocated(FechaLicencia))
                     .sendKeys(datosEmpleado.get("Fecha expiracion Licencia"));
 
+            Thread.sleep(2000); // Espera para observar el resultado
+            // NACIONALIDAD
             // Hacer clic en el campo de Nacionalidad para desplegar las opciones
-            By Nacionalidad = By
-                    .xpath("//label[text()='Nationality']/following::div[contains(@class,'oxd-select-text')][1]");
+            By Nacionalidad = By.xpath("//label[text()='Nationality']/following::div[contains(@class,'oxd-select-text')][1]");
             wait.until(ExpectedConditions.elementToBeClickable(Nacionalidad)).click();
-
-            // Esperar a que las opciones sean visibles
             By opciones = By.xpath("//div[contains(@class, 'oxd-select-option')]");
-            wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(opciones));
-
-            // Seleccionar la nacionalidad correspondiente
-            String nacionalidad = datosEmpleado.get("Nacionalidad");
-            By SeleccionarNacionalidad = By
-                    .xpath("//div[contains(@class,'oxd-select-option') and normalize-space()='" + nacionalidad + "']");
+            wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(opciones));            
+            String nacionalidad = datosEmpleado.get("Nacionalidad"); // Seleccionar la nacionalidad correspondiente
+            By SeleccionarNacionalidad = By.xpath("//div[contains(@class,'oxd-select-option') and normalize-space()='" + nacionalidad + "']");
             wait.until(ExpectedConditions.elementToBeClickable(SeleccionarNacionalidad)).click();
+            Thread.sleep(1000); // Espera para observar el resultado
 
-            // Seleccionar estado civil
+            // Estado civil
             String estadoCivil = datosEmpleado.get("Estado Civil");
-            By SelectorEstadoCivil = By
-                    .xpath("//label[text()='Marital Status']/following::div[contains(@class,'oxd-select-text')][1]");
+            By SelectorEstadoCivil = By.xpath("//label[text()='Marital Status']/following::div[contains(@class,'oxd-select-text')][1]");
             wait.until(ExpectedConditions.elementToBeClickable(SelectorEstadoCivil)).click();
-            By SeleccionarEstadoCivil = By
-                    .xpath("//div[contains(@class,'oxd-select-option') and normalize-space()='" + estadoCivil + "']");
+            By SeleccionarEstadoCivil = By.xpath("//div[contains(@class,'oxd-select-option') and normalize-space()='" + estadoCivil + "']");
             wait.until(ExpectedConditions.elementToBeClickable(SeleccionarEstadoCivil)).click();
-
+            
+            Thread.sleep(1000); // Espera para observar el resultado
             // Ingresar la fecha de nacimiento
             By FechaNacimiento = By.xpath("//label[text()='Date of Birth']/following::input[1]");
             wait.until(ExpectedConditions.visibilityOfElementLocated(FechaNacimiento))
                     .sendKeys(datosEmpleado.get("Fecha de Nacimiento"));
-
+            Thread.sleep(1000); // Espera para observar el resultado    
             // Ingresar el género aleatoriamente
             String genero = datosEmpleado.get("Genero").equalsIgnoreCase("Hombre") ? "1" : "2";
-            By SelectorGenero = By
-                    .xpath("(//span[@class='oxd-radio-input oxd-radio-input--active --label-right oxd-radio-input'])["
+            By SelectorGenero = By.xpath("(//span[@class='oxd-radio-input oxd-radio-input--active --label-right oxd-radio-input'])["
                             + genero + "]");
             wait.until(ExpectedConditions.elementToBeClickable(SelectorGenero)).click();
 

@@ -13,18 +13,18 @@ public class ModuloPimPageSteps extends BaseTest {
     private ModuloPimPage moduloPimPage;
 
     @And("^El usuario se encuentra en la pagina de inicio del sistema PIM$")
-    public void el_usuario_se_encuentra_en_la_pagina_de_inicio_del_sistema_PIM() {
+    public void el_usuario_se_encuentra_en_la_pagina_de_inicio_del_sistema_PIM()  {
         moduloPimPage = new ModuloPimPage(driver); // ✅ Usa el driver del BaseTest ya inicializado
         moduloPimPage.validaPantallaModuloPIM();
     }
 
     @When("^El usuario ingresa al modulo PIM$")
-    public void el_usuario_ingresa_al_modulo_PIM() {
+    public void el_usuario_ingresa_al_modulo_PIM()  {
         moduloPimPage.irAModuloPIM();
     }
 
     @When("^Usuario hace clic en el boton Agregar$")
-    public void usuario_hace_clic_en_el_boton_Agregar() {
+    public void usuario_hace_clic_en_el_boton_Agregar()  {
         moduloPimPage.usuario_hace_clic_en_el_boton_Agregar();
     }
 
