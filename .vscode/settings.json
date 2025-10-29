@@ -1,4 +1,70 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive",
-    "java.compile.nullAnalysis.mode": "automatic"
+  // 🎨 Apariencia general — Modo claro, limpio y profesional
+  "workbench.colorTheme": "Quiet Light",
+  "workbench.iconTheme": "vs-seti",
+  "workbench.editor.empty.hint": "hidden",
+  "editor.smoothScrolling": true,
+  "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "selection",
+  // 🔤 Fuente principal y ajustes visuales
+  "editor.fontFamily": "Consolas, 'Segoe UI Emoji', monospace",
+  "editor.fontSize": 14,
+  "editor.fontLigatures": false,
+  "editor.lineHeight": 1.2,
+  "editor.letterSpacing": 0,
+  // 🧰 Git y Python
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "python.defaultInterpreterPath": "c:\\Python312\\python.exe",
+  // ⚙️ Terminal integrada — Fuente original + soporte de emojis
+  "terminal.integrated.fontFamily": "Consolas, 'Segoe UI Emoji', monospace",
+  "terminal.integrated.fontSize": 15,
+  "terminal.integrated.lineHeight": 1.0,
+  "terminal.integrated.letterSpacing": 0,
+  "terminal.integrated.cursorStyle": "block",
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.scrollback": 10000,
+  // 💎 Perfiles de terminal (PowerShell con Oh My Posh)
+  "terminal.integrated.profiles.windows": {
+    "PowerShell (Oh My Posh)": {
+      "path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "icon": "terminal-powershell",
+      "args": [
+        "-NoExit",
+        "oh-my-posh init pwsh | Invoke-Expression"
+      ]
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "PowerShell (Oh My Posh)",
+  "terminal.integrated.automationProfile.windows": {
+    "path": "C:\\Windows\\System32\\cmd.exe",
+    "source": "PowerShell",
+    "args": [
+      "-NoExit",
+      "oh-my-posh init pwsh | Invoke-Expression"
+    ]
+  },
+  // 🌈 Paleta clara optimizada (colores suaves y legibles)
+  "workbench.colorCustomizations": {
+    "terminal.background": "#FAFAFA",
+    "terminal.foreground": "#202020",
+    "terminalCursor.foreground": "#007ACC",
+    "terminal.ansiBlack": "#BFBFBF",
+    "terminal.ansiRed": "#C41E3A",
+    "terminal.ansiGreen": "#007200",
+    "terminal.ansiYellow": "#B8860B",
+    "terminal.ansiBlue": "#005CC5",
+    "terminal.ansiMagenta": "#6F42C1",
+    "terminal.ansiCyan": "#1B9AAA",
+    "terminal.ansiWhite": "#2B2B2B",
+    "terminal.ansiBrightBlack": "#A9A9A9",
+    "terminal.ansiBrightRed": "#E51400",
+    "terminal.ansiBrightGreen": "#2EA043",
+    "terminal.ansiBrightYellow": "#DAA520",
+    "terminal.ansiBrightBlue": "#0078D4",
+    "terminal.ansiBrightMagenta": "#8A2BE2",
+    "terminal.ansiBrightCyan": "#00A0A0",
+    "terminal.ansiBrightWhite": "#000000"
+  },
+  "task.slowProviderWarning": true
 }

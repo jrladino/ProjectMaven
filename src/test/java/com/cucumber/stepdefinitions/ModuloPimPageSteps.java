@@ -12,10 +12,10 @@ public class ModuloPimPageSteps extends BaseTest {
 
     private ModuloPimPage moduloPimPage;
 
-    @And("^El usuario se encuentra en la pagina de inicio del sistema PIM$")
-    public void el_usuario_se_encuentra_en_la_pagina_de_inicio_del_sistema_PIM()  {
+    @And("^El usuario se encuentra en la pagina de inicio del sistema$")
+    public void el_usuario_se_encuentra_en_la_pagina_de_inicio_del_sistema()  {
         moduloPimPage = new ModuloPimPage(driver); // ✅ Usa el driver del BaseTest ya inicializado
-        moduloPimPage.validaPantallaModuloPIM();
+        moduloPimPage.validaPantallaPrincipal();
     }
 
     @When("^El usuario ingresa al modulo PIM$")
